@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="emp01" class="com.spring.demo.bean.Employee"></bean>
+
+    <bean id="employee" class="com.spring.demo.bean.Employee"></bean>
+
+    <bean id="city" class="com.spring.demo.bean.City">
+        <property name="cityName" value="大连"></property>
+        <property name="population" value="200000"></property>
+    </bean>
+
+    <import resource="spring-bean.xml"></import>
+</beans>
