@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import java.util.stream.Stream;
 
@@ -55,6 +57,9 @@ public class TestBean {
         AutowireCapableBeanFactory beanFactory = act.getAutowireCapableBeanFactory();
         Employee bean = beanFactory.createBean(Employee.class);
         System.out.println(bean);
+        Resource r =   new ClassPathResource("");
     }
+
+
 
 }
