@@ -32,3 +32,39 @@ org.springframework.beans.factory.support.DefaultListableBeanFactory.registerBea
 ####AbstractBeanFactory
         Object bean = act.getBean("emp01");
 org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean    
+    //保存beanName和创建bean实例直接的关系
+	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
+
+	/**保存beanName和创建bean的工厂之间的关系 bean name->Objectfactory */
+	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
+
+	/** 保存beanName和创建bean实例直接的关系与 singletonObjects的区别在于获取创建过程中的bean*/
+	private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);
+	
+	//如果指定的name是工厂相关且beanInstance且又不是Factorybean则类型验证不通过
+	//
+	if (BeanFactoryUtils.isFactoryDereference(name)) {
+    			if (beanInstance instanceof NullBean) {
+    				return beanInstance;
+    			}
+    			if (!(beanInstance instanceof FactoryBean)) {
+    				throw new BeanIsNotAFactoryException(beanName, beanInstance.getClass());
+    			}
+    			if (mbd != null) {
+    				mbd.isFactoryBean = true;
+    			}
+    			return beanInstance;
+    		}
+####BeanPostProcessor    		
+ org.springframework.beans.factory.config.BeanPostProcessor 
+####InstantiationAwareBeanPostProcessor    
+ org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
+ 
+ protected void addSingleton(String beanName, Object singletonObject) {
+ 		synchronized (this.singletonObjects) {
+ 			this.singletonObjects.put(beanName, singletonObject);
+ 			this.singletonFactories.remove(beanName);
+ 			this.earlySingletonObjects.remove(beanName);
+ 			this.registeredSingletons.add(beanName);
+ 		}
+ 	}  		
