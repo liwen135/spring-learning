@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.app.dao.UserDao">
+
+    <cache eviction="LRU" flushInterval="600000" readOnly="false" size="1024"></cache>
+
+    <!--<cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>-->
+
+    <resultMap id="userResultMap" type="com.spring.app.bean.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+
+    </resultMap>
+
+    <sql id="baseColumn">
+        user_name,pass_word,tel_phone,email,create_time,update_time,create_user,update_user,is_delete,ts,version
+    </sql>
+
+    <sql id="baseWhere">
+        <where>
+            <if test="userName != null and userName != '' ">
+                set user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="passWord != null and passWord != '' ">
+                set pass_word = #{passWord,jdbcType=VARCHAR}
+            </if>
+            <if test="telPhone != null and telPhone != '' ">
+                set tel_phone = #{telPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email != '' ">
+                set email = #{email,jdbcType=VARCHAR}
+            </if>
+
+        </where>
+    </sql>
+    <select id="selectById" resultMap="userResultMap" parameterType="java.lang.Long">
+        SELECT id,
+      name,age
+        FROM user1 where id = #{id,jdbcType = BIGINT}
+
+
+    </select>
+
+    <insert id="insert">
+        INSERT INTO user1 (name,age) VALUES( #{name,jdbcType=VARCHAR},  #{age,jdbcType=INTEGER} )
+    </insert>
+
+
+
+    <update id="deleteById">
+        update user1 set is_delete = 1
+        where id =  #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="select" resultMap="userResultMap" parameterType="com.spring.app.bean.User">
+        SELECT id,name,age FROM user1
+
+        <where>
+            <if test="id != null">
+                and id = #{id,jdbcType = BIGINT}
+            </if>
+
+            <if test="name != null and name != '' ">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="age != null  ">
+                and age = #{age,jdbcType=INTEGER}
+            </if>
+
+
+        </where>
+    </select>
+
+
+    <select id="count" resultType="integer">
+        select count(1) from tb_user where is_delete =0
+    </select>
+
+    <select id="selectByName" resultMap="userResultMap" parameterType="string">
+        SELECT id,
+        <include refid="baseColumn"/>
+        FROM user1
+        where user_name = #{userName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByIds" resultMap="userResultMap" parameterType="arraylist">
+        SELECT id,
+        <include refid="baseColumn"/>
+        FROM user1
+        where id in
+        <!-- 参数为list.其他不可以-->
+        <foreach collection="list" close=")" open="(" separator="," item="id">
+            #{id,jdbcType =BIGINT }
+        </foreach>
+    </select>
+    <select id="selectByNames" resultMap="userResultMap" parameterType="arraylist">
+        SELECT id,
+        <include refid="baseColumn"/>
+        FROM user1
+        where user_name in
+        <!-- 参数为list.其他不可以-->
+        <foreach collection="names" close=")" open="(" separator="," item="id">
+            #{id,jdbcType =BIGINT }
+        </foreach>
+    </select>
+    <select id="selectByEmailAndName" resultMap="userResultMap" parameterType="string">
+        SELECT id,
+        <include refid="baseColumn"/>
+        FROM user1
+        where user_name = #{userName,jdbcType=VARCHAR}
+        and email = #{email,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByMap" resultMap="userResultMap" parameterType="map">
+        SELECT id,
+        <include refid="baseColumn"/>
+        FROM user1
+        where user_name = #{userName,jdbcType=VARCHAR}
+        and email = #{email,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

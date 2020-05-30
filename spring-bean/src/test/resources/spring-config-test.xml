@@ -5,12 +5,15 @@
 
     <bean id="emp01" class="com.spring.demo.bean.Employee"></bean>
 
-    <bean id="employee" class="com.spring.demo.bean.Employee"></bean>
+    <bean id="employee" class="com.spring.demo.bean.Employee">
+        <constructor-arg name="age" value="10"></constructor-arg>
+        <constructor-arg name="name" value="Tomcat7"></constructor-arg>
+    </bean>
 
     <bean id="city" class="com.spring.demo.bean.City">
         <property name="cityName" value="大连"></property>
         <property name="population" value="200000"></property>
     </bean>
 
-    <import resource="spring-bean.xml"></import>
+<!--    <import resource="spring-bean.xml"></import>-->
 </beans>

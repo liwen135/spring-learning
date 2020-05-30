@@ -9,6 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>spring-bean</module>
+        <module>spring-aop</module>
+        <module>spring-app</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -16,11 +18,48 @@
         <junit.version>4.12</junit.version>
         <slf.version>1.7.13</slf.version>
         <log4j2.version>2.12.1</log4j2.version>
-        <lombok.version>1.8.10</lombok.version>
+        <lombok.version>1.18.8</lombok.version>
         <disruptor.version>3.4.1</disruptor.version>
+        <aspectj.version>1.9.5</aspectj.version>
+        <mybatis.version>3.4.6</mybatis.version>
+        <mybatis-spring.version>2.0.3</mybatis-spring.version>
+        <mysql.version>8.0.14</mysql.version>
+        <dbcp.version>2.7.0</dbcp.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+                <version>${dbcp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>

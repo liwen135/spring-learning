@@ -10,6 +10,11 @@ public class Employee {
         System.out.println("Employee init with constructor");
     }
 
+    public Employee(Integer age, String name) {
+        this.age = age;
+        this.name = name;
+    }
+
     public Integer getAge() {
         return age;
     }

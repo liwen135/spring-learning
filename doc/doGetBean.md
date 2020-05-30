@@ -20,14 +20,14 @@ protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredTy
 					logger.trace("Returning cached instance of singleton bean '" + beanName + "'");
 				}
 			}
-			//返回
+			//返回对应的实例，有时候 存在诸如BeanFactory的情况并不是直接返回实例本身而是返回指定方法返回的实例
 			bean = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
 
 		else {
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
-			//单实例的bean会有循环依赖问题
+			//单实例的bean才需要考虑循环依赖问题,原型模式循环依赖，异常
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
 			}
@@ -35,6 +35,7 @@ protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredTy
 			// Check if bean definition exists in this factory.
 			//从父类检查
 			BeanFactory parentBeanFactory = getParentBeanFactory();
+			//beanDefinitionMap 不存在，需要去父类中加载
 			if (parentBeanFactory != null && !containsBeanDefinition(beanName)) {
 				// Not found -> check parent.
 				String nameToLookup = originalBeanName(name);
@@ -60,12 +61,13 @@ protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredTy
 			}
 
 			try {
-			    //合并父类属性
+			    //把GenericBeanDefinition 转为RootBeanDefinition,子类bean需要合并父类属性，
 				final RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
 
 				// Guarantee initialization of beans that the current bean depends on.
 				String[] dependsOn = mbd.getDependsOn();
+				//存在依赖，需要递归实例化依赖的bean
 				if (dependsOn != null) {
 					for (String dep : dependsOn) {
 						if (isDependent(beanName, dep)) {
@@ -84,8 +86,9 @@ protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredTy
 					}
 				}
 
-				// Create bean instance.
-				if (mbd.isSingleton()) {
+				// Create bean instance. 实例化
+				
+				if (mbd.isSingleton()) { //单例
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							return createBean(beanName, mbd, args);
@@ -101,7 +104,7 @@ protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredTy
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 
-				else if (mbd.isPrototype()) {
+				else if (mbd.isPrototype()) { //原型
 					// It's a prototype -> create a new instance.
 					Object prototypeInstance = null;
 					try {
@@ -114,7 +117,7 @@ protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredTy
 					bean = getObjectForBeanInstance(prototypeInstance, name, beanName, mbd);
 				}
 
-				else {
+				else { //其他scope
 					String scopeName = mbd.getScope();
 					final Scope scope = this.scopes.get(scopeName);
 					if (scope == null) {
@@ -146,7 +149,7 @@ protected <T> T doGetBean(final String name, @Nullable final Class<T> requiredTy
 			}
 		}
 
-		// Check if required type matches the type of the actual bean instance.
+		// 检查需要的类型是否符合bean的实例类型
 		if (requiredType != null && !requiredType.isInstance(bean)) {
 			try {
 				T convertedBean = getTypeConverter().convertIfNecessary(bean, requiredType);

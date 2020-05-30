@@ -32,6 +32,7 @@ org.springframework.beans.factory.support.DefaultListableBeanFactory.registerBea
 ####AbstractBeanFactory
         Object bean = act.getBean("emp01");
 org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean    
+
     //保存beanName和创建bean实例直接的关系
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
 
@@ -68,3 +69,5 @@ org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean
  			this.registeredSingletons.add(beanName);
  		}
  	}  		
+####InstantiationAwareBeanPostProcessor     	
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory 	

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Configuration status="off">
+
+    <properties>
+        <property name="log_home">/export/Logs/spring-demo/app</property>
+        <property name="business_log_size">200 MB</property>
+        <property name="business_log_file_count">100</property>
+        <property name="lib_log_size">200 MB</property>
+        <property name="lib_log_file_count">100</property>
+        <property name="lib_log_level">info</property>
+        <property name="patternLayout">%-d{yyyy-MM-dd HH:mm:ss.SSS} [%p] [%t] - %c.%M():%L - %m%n</property>
+    </properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <RollingFile name="sql" fileName="${log_home}/sql.log"
+                     filePattern="${log_home}/sql-%d{yyyyMMdd}-%i.log">
+            <PatternLayout charset="UTF-8" pattern="${patternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${business_log_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${business_log_file_count}"/>
+        </RollingFile>
+
+        <RollingFile name="all" fileName="${log_home}/all.log"
+                     filePattern="${log_home}/all-%d{yyyyMMdd}-%i.log">
+            <PatternLayout charset="UTF-8" pattern="${patternLayout}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${business_log_size}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${business_log_file_count}"/>
+        </RollingFile>
+
+
+    </Appenders>
+    <Loggers>
+
+        <Logger name="com.spring.app" additivity="false" level="${wms3-inbound.log.level}">
+            <appender-ref ref="Console"/>
+        </Logger>
+
+<!--        <Logger name="com.spring.app.dao" additivity="false" level="debug">-->
+<!--            <AppenderRef ref="sql"/>-->
+<!--        </Logger>-->
+<!--        <Logger name="java.sql" additivity="false" level="debug">-->
+<!--            <AppenderRef ref="sql"/>-->
+<!--        </Logger>-->
+
+        <root level="debug">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="all"/>
+        </root>
+    </Loggers>
+</Configuration>

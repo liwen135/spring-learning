@@ -1,5 +1,6 @@
 package com.spring.test;
 
+import com.spring.demo.bean.City;
 import com.spring.demo.bean.Employee;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,8 @@ import java.util.stream.Stream;
 
 public class TestBean {
     ApplicationContext act = null;
+
+    private ThreadLocal threadLocal = new ThreadLocal<Employee>();
 
     @Before
     public void init() {
@@ -36,8 +39,10 @@ public class TestBean {
 
     @Test
     public void getBeanByid() {
-        Object bean = act.getBean("emp01");
-        System.out.println(bean);
+        Employee emp01 = act.getBean("emp01", Employee.class);
+        Employee employee = act.getBean("employee", Employee.class);
+        City city = act.getBean("city", City.class);
+        System.out.println(city);
     }
 
     @Test
@@ -57,9 +62,8 @@ public class TestBean {
         AutowireCapableBeanFactory beanFactory = act.getAutowireCapableBeanFactory();
         Employee bean = beanFactory.createBean(Employee.class);
         System.out.println(bean);
-        Resource r =   new ClassPathResource("");
+        Resource r = new ClassPathResource("");
     }
-
 
 
 }
