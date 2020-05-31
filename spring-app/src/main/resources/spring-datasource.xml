@@ -28,13 +28,20 @@
         <!--<property name="typeAliasesPackage" value="com.ca.fire.domain.bean"></property>-->
 
     </bean>
+    <!--    单独使用生成-->
+    <!--    <bean class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+    <!--        <property name="mapperInterface" value="com.spring.app.dao.UserDao"></property>-->
+    <!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>-->
+    <!--    </bean>-->
 
     <!-- 配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!-- 给出需要扫描Dao接口包 -->
+        <!-- 给出需要扫描Dao接口包 ,value可以用逗号或分号设置多个路径 -->
         <property name="basePackage" value="com.spring.app.dao"/>
         <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!-- 触发提前解析properties-->
+        <property name="processPropertyPlaceHolders" value="true"></property>
     </bean>
 
     <!-- 配置事务管理器 -->
@@ -43,7 +50,9 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- 配置基于注解的声明式事务 -->
+    <!-- 配置基于注解的声明式事务 ,spring事务默认只对runtimeException异常生效 -->
     <!-- 注掉此行即采用编程式事务 -->
     <tx:annotation-driven/>
+<!--    <tx:annotation-driven transaction-manager="transactionManager" mode="aspectj"/>-->
+<!--    <tx:annotation-driven transaction-manager="transactionManager" mode="proxy"/>-->
 </beans>

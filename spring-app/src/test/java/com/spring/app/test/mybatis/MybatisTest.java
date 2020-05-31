@@ -10,6 +10,8 @@ import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,5 +61,12 @@ public class MybatisTest {
                 sqlSession.close();
             }
         }
+    }
+    @Test
+    public void test(){
+        String basePackage ="222,333,555";
+         basePackage ="222,;333;555";
+        String[] array = StringUtils.tokenizeToStringArray(basePackage, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
+        System.out.println(array);
     }
 }

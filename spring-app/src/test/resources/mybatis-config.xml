@@ -21,7 +21,7 @@
         </environment>
     </environments>
     <!--    单独使用mybatis,没有spring时-->
-    <!--    <mappers>-->
-    <!--        <mapper resource="mapper/UserMapper.xml"/>-->
-    <!--    </mappers>-->
+<!--        <mappers>-->
+<!--            <mapper resource="mapper/UserMapper.xml"/>-->
+<!--        </mappers>-->
 </configuration>

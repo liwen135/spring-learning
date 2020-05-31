@@ -1,0 +1,5 @@
+###HttpInvokerServiceExporter
+org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter
+org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter.handleRequest
+###HttpInvokerProxyFactoryBean
+org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean
