@@ -21,7 +21,7 @@
         <lombok.version>1.18.8</lombok.version>
         <disruptor.version>3.4.1</disruptor.version>
         <aspectj.version>1.9.5</aspectj.version>
-        <mybatis.version>3.4.6</mybatis.version>
+        <mybatis.version>3.5.6</mybatis.version>
         <mybatis-spring.version>2.0.3</mybatis-spring.version>
         <mysql.version>8.0.14</mysql.version>
         <dbcp.version>2.7.0</dbcp.version>
